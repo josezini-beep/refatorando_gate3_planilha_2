@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { clientesController } from './controller/clientes/clientesController';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -16,7 +15,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'refatorando_gate3_planilha_2',
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [clientesController],
+  providers: [],
 })
 export class AppModule {}
