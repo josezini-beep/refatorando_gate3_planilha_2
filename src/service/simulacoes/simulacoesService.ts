@@ -27,7 +27,19 @@ export class SimulacoesService {
                 apagado: false
             }
     });
+    
 
     return resultado;
-}
+    }
+        async buscarSimulacaoPorUC(uc: string) {
+        const resultado = await this.prisma.simulacoes.findMany({
+            where: {
+                uc: uc,
+                apagado: false
+            }
+    });
+    
+
+    return resultado;
+    }
 }

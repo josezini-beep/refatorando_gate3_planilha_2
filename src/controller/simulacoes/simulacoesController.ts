@@ -38,4 +38,17 @@ export class SimulacoesController {
 
         return resultado;
     }
+    @Get('uc/:uc')
+    async buscarSimulacaoPorUC(
+        @Param('uc') uc: string
+    ) {
+
+        const resultado =
+            await this.simulacoesService.buscarSimulacaoPorUC(uc);
+            
+    if (resultado.length===0) {
+        throw new NotFoundException('UC não encontrada.');
+    }
+        return resultado;
+    }
 }

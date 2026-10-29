@@ -1,7 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-
 import { SimulacoesController } from '../../src/controller/simulacoes/simulacoesController';
 import { SimulacoesService } from '../../src/service/simulacoes/simulacoesService';
 
@@ -11,7 +10,8 @@ describe('Rotas HTTP de simulações', () => {
 
     const serviceMock = {
         listarSimulacoes: jest.fn(),
-        buscarSimulacaoPorId: jest.fn()
+        buscarSimulacaoPorId: jest.fn(),
+        buscarSimulacoesPorUc: jest.fn()
     };
 
     beforeAll(async () => {
@@ -56,6 +56,25 @@ describe('Rotas HTTP de simulações', () => {
         expect(resposta.body).toEqual(simulacoes);
 
         expect(serviceMock.listarSimulacoes).toHaveBeenCalledTimes(1);
+    });
+    it('GET /simulacoes/uc/:uc deve retornar status 200', async () => {
+
+        const simulacoes = [
+            { id: 1, uc: '12345', apagado: false },
+            { id: 2, uc: '12345', apagado: false }
+        ];
+
+        serviceMock.buscarSimulacoesPorUc.mockResolvedValue(simulacoes);
+
+        const resposta = await request(app.getHttpServer())
+            .get('/simulacoes/uc/12345');
+
+        expect(resposta.status).toBe(200);
+
+        expect(resposta.body).toEqual(simulacoes);
+
+        expect(serviceMock.buscarSimulacoesPorUc)
+            .toHaveBeenCalledWith('12345');
     });
     
 });

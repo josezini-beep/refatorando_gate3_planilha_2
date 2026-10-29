@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
-import { clientesController } from './controller/clientes/clientesController';
-import { ClienteService } from './service/Clientes/clientesService';
-import { PrismaService } from './prisma/prisma.service';
-import { SimulacoesController } from './controller/simulacoes/simulacoesController';
-import { SimulacoesService } from './service/simulacoes/simulacoesService';
+import { clientesController } from '../controller/clientes/clientesController';
+import { ClienteService } from '../service/Clientes/clientesService';
+import { PrismaService } from '../prisma/prisma.service';
+import { SimulacoesController } from '../controller/simulacoes/simulacoesController';
+import { SimulacoesService } from '../service/simulacoes/simulacoesService';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -19,7 +19,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'refatorando_gate3_planilha_2',
     }),
   ],
-  controllers: [clientesController,SimulacoesController],
+  controllers: [clientesController, SimulacoesController],
   providers: [ClienteService, PrismaService, SimulacoesService],
 })
 export class AppModule {}
