@@ -30,6 +30,7 @@ export class SimulacoesService {
     
 
     return resultado;
+    
     }
         async buscarSimulacaoPorUC(uc: string) {
         const resultado = await this.prisma.simulacoes.findMany({
@@ -39,7 +40,6 @@ export class SimulacoesService {
             }
     });
     
-
     return resultado;
     }
 }

@@ -11,7 +11,7 @@ describe('Rotas HTTP de simulações', () => {
     const serviceMock = {
         listarSimulacoes: jest.fn(),
         buscarSimulacaoPorId: jest.fn(),
-        buscarSimulacoesPorUc: jest.fn()
+        buscarSimulacaoPorUC: jest.fn()
     };
 
     beforeAll(async () => {
@@ -64,7 +64,7 @@ describe('Rotas HTTP de simulações', () => {
             { id: 2, uc: '12345', apagado: false }
         ];
 
-        serviceMock.buscarSimulacoesPorUc.mockResolvedValue(simulacoes);
+        serviceMock.buscarSimulacaoPorUC.mockResolvedValue(simulacoes);
 
         const resposta = await request(app.getHttpServer())
             .get('/simulacoes/uc/12345');
@@ -73,8 +73,23 @@ describe('Rotas HTTP de simulações', () => {
 
         expect(resposta.body).toEqual(simulacoes);
 
-        expect(serviceMock.buscarSimulacoesPorUc)
+        expect(serviceMock.buscarSimulacaoPorUC)
             .toHaveBeenCalledWith('12345');
+    });
+    
+    it('GET /simulacoes/uc/:uc deve retornar 404 quando a UC não existir', async () => {
+
+        serviceMock.buscarSimulacaoPorUC.mockResolvedValue([]);
+
+        const resposta = await request(app.getHttpServer())
+            .get('/simulacoes/uc/99999');
+
+        expect(resposta.status).toBe(404);
+
+        expect(resposta.body.message).toBe('UC não encontrada.');
+
+        expect(serviceMock.buscarSimulacaoPorUC)
+            .toHaveBeenCalledWith('99999');
     });
     
 });

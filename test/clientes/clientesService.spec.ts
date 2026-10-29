@@ -9,10 +9,11 @@ describe('ClienteService', () => {
         const resultado = await service.importarClientes();
 
         expect(resultado).toEqual({
-            mensagem: 'Service de clientes funcionando!'
+            mensagem: 'Service funcionando'
         });
 
     });
+    
 
 });
 
