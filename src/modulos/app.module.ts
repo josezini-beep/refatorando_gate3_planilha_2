@@ -3,7 +3,7 @@ import { createObserveModule } from '@nestjs/observe';
 import { clientesController } from '../controller/clientes/clientesController';
 import { ClienteService } from '../service/Clientes/clientesService';
 import { PrismaService } from '../prisma/prisma.service';
-import { SimulacoesModule } from './simulacao.module';
+import { SimulacoesModule } from './simulacoes/simulacao.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
