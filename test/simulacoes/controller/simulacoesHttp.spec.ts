@@ -13,7 +13,8 @@ describe('Rotas HTTP de simulações', () => {
         listarSimulacoes: jest.fn(),
         buscarSimulacaoPorId: jest.fn(),
         buscarSimulacaoPorUC: jest.fn(),
-        buscarSimulacaoPorCPF: jest.fn()
+        buscarSimulacaoPorCPF: jest.fn(),
+        criarSimulacao: jest.fn()
     };
 
     beforeAll(async () => {
@@ -143,6 +144,38 @@ describe('Rotas HTTP de simulações', () => {
         expect(serviceMock.buscarSimulacaoPorCPF)
             .toHaveBeenCalledWith('99999999999');
 
+    });
+    
+    it('POST /simulacoes deve criar uma simulação', async () => {
+
+        const dados = {
+            uc: '12345',
+            concessionaria: 'Copel',
+            encargos: 50,
+            impostos: 30,
+            kwh: 500,
+            valor_kwh: 0.8,
+            desconto_percentual: 20
+        };
+
+        const simulacaoCriada = {
+            id: 1,
+            ...dados,
+            economia_mensal: '80.00',
+            economia_anual: '960.00'
+        };
+
+        serviceMock.criarSimulacao.mockResolvedValue(simulacaoCriada);
+
+        const resposta = await request(app.getHttpServer())
+            .post('/simulacoes')
+            .send(dados);
+
+        expect(resposta.status).toBe(201);
+        expect(resposta.body).toEqual(simulacaoCriada);
+
+        expect(serviceMock.criarSimulacao)
+            .toHaveBeenCalledWith(dados);
     });
     
 });
