@@ -1,12 +1,15 @@
 import {
     Controller,
     Get,
+    Post,
+    Body,
     Param,
     ParseIntPipe,
     NotFoundException,
-    BadRequestException
+    BadRequestException,
+    Delete
 } from '@nestjs/common';
-
+import type { DadosCriacaoSimulacao } from '../../service/simulacoes/simulacoesService';
 import { SimulacoesService } from '../../service/simulacoes/simulacoesService';
 
 @Controller('simulacoes')
@@ -38,7 +41,7 @@ export class SimulacoesController {
 
         return resultado;
     }
-    
+
     @Get('uc/:uc')
     async buscarSimulacaoPorUC(
         @Param('uc') uc: string
@@ -47,7 +50,7 @@ export class SimulacoesController {
         const resultado =
             await this.simulacoesService.buscarSimulacaoPorUC(uc);
             
-    if (resultado.length===0) {
+    if (!resultado) {
         throw new NotFoundException('UC não encontrada.');
     }
         return resultado;
@@ -64,6 +67,26 @@ export class SimulacoesController {
     if (resultado.length===0) {
         throw new NotFoundException('CPF não encontrado.');
     }
+        return resultado;
+    }
+
+    @Post()
+    async criarSimulacao(
+        @Body() dados: DadosCriacaoSimulacao
+    ) {
+        const resultado =
+            await this.simulacoesService.criarSimulacao(dados);
+
+        return resultado;
+    }
+
+    @Delete(':id')
+    async deletarSimulacao( 
+        @Param('id', ParseIntPipe) id: number
+    ) {
+        const resultado = 
+            await this.simulacoesService.deletarSimulacao(id);
+
         return resultado;
     }
 }
