@@ -1,5 +1,5 @@
-import { SimulacoesController } from '../../src/controller/simulacoes/simulacoesController';
-import type { SimulacoesService } from '../../src/service/simulacoes/simulacoesService';
+import { SimulacoesController } from '../../../src/controller/simulacoes/simulacoesController';
+import type { SimulacoesService } from '../../../src/service/simulacoes/simulacoesService';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('SimulacoesController', () => {

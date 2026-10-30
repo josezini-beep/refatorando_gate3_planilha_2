@@ -1,8 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
-import { SimulacoesController } from '../../src/controller/simulacoes/simulacoesController';
-import { SimulacoesService } from '../../src/service/simulacoes/simulacoesService';
+
+import { SimulacoesController } from '../../../src/controller/simulacoes/simulacoesController';
+import { SimulacoesService } from '../../../src/service/simulacoes/simulacoesService';
 
 describe('Rotas HTTP de simulações', () => {
 

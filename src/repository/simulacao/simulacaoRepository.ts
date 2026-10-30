@@ -44,16 +44,19 @@ export class SimulacoesRepository {
 
     }
 
-        async buscaSimulacaoPorUCRepository(uc:string) {
+    async buscaSimulacaoPorUCRepository(uc: string) {
+
         const resultado = await this.prisma.simulacoes.findMany({
             where: {
                 uc: uc,
                 apagado: false
             },
+            orderBy: {
+                id: 'asc'
+            }
         });
 
         return resultado;
-
     }
 
         async buscaSimulacaoPorCPFRepository(cpf: string) {
