@@ -50,7 +50,7 @@ export class SimulacoesController {
         const resultado =
             await this.simulacoesService.buscarSimulacaoPorUC(uc);
             
-    if (!resultado) {
+    if (resultado.length===0) {
         throw new NotFoundException('UC não encontrada.');
     }
         return resultado;
