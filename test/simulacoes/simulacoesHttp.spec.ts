@@ -11,7 +11,8 @@ describe('Rotas HTTP de simulações', () => {
     const serviceMock = {
         listarSimulacoes: jest.fn(),
         buscarSimulacaoPorId: jest.fn(),
-        buscarSimulacaoPorUC: jest.fn()
+        buscarSimulacaoPorUC: jest.fn(),
+        buscarSimulacaoPorCPF: jest.fn()
     };
 
     beforeAll(async () => {
@@ -76,7 +77,7 @@ describe('Rotas HTTP de simulações', () => {
         expect(serviceMock.buscarSimulacaoPorUC)
             .toHaveBeenCalledWith('12345');
     });
-    
+
     it('GET /simulacoes/uc/:uc deve retornar 404 quando a UC não existir', async () => {
 
         serviceMock.buscarSimulacaoPorUC.mockResolvedValue([]);
@@ -90,6 +91,57 @@ describe('Rotas HTTP de simulações', () => {
 
         expect(serviceMock.buscarSimulacaoPorUC)
             .toHaveBeenCalledWith('99999');
+    });
+
+    it('deve retornar 404 quando a UC não existir', async () => {
+
+        serviceMock.buscarSimulacaoPorUC.mockResolvedValue([]);
+
+        const resposta = await request(app.getHttpServer())
+            .get('/simulacoes/uc/99999');
+
+        expect(resposta.status).toBe(404);
+
+        expect(resposta.body.message).toBe('UC não encontrada.');
+
+        expect(serviceMock.buscarSimulacaoPorUC)
+            .toHaveBeenCalledWith('99999');
+
+    });
+    it('GET /simulacoes/cpf/:cpf deve retornar 200 quando o CPF existir', async () => {
+
+        const simulacoes = [
+            { id: 1, cpf: '12345678901', apagado: false },
+            { id: 2, cpf: '12345678901', apagado: false }
+        ];
+
+        serviceMock.buscarSimulacaoPorCPF.mockResolvedValue(simulacoes);
+
+        const resposta = await request(app.getHttpServer())
+            .get('/simulacoes/cpf/12345678901');
+
+        expect(resposta.status).toBe(200);
+        expect(resposta.body).toEqual(simulacoes);
+
+        expect(serviceMock.buscarSimulacaoPorCPF)
+            .toHaveBeenCalledWith('12345678901');
+
+    });
+
+    it('GET /simulacoes/cpf/:cpf deve retornar 404 quando o CPF não existir', async () => {
+
+        serviceMock.buscarSimulacaoPorCPF.mockResolvedValue([]);
+
+        const resposta = await request(app.getHttpServer())
+            .get('/simulacoes/cpf/99999999999');
+
+        expect(resposta.status).toBe(404);
+
+        expect(resposta.body.message).toBe('CPF não encontrado.');
+
+        expect(serviceMock.buscarSimulacaoPorCPF)
+            .toHaveBeenCalledWith('99999999999');
+
     });
     
 });

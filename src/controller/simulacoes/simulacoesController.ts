@@ -38,6 +38,7 @@ export class SimulacoesController {
 
         return resultado;
     }
+    
     @Get('uc/:uc')
     async buscarSimulacaoPorUC(
         @Param('uc') uc: string
@@ -48,6 +49,20 @@ export class SimulacoesController {
             
     if (resultado.length===0) {
         throw new NotFoundException('UC não encontrada.');
+    }
+        return resultado;
+    }
+
+    @Get('cpf/:cpf')
+    async buscarSimulacaoPorCPF(
+        @Param('cpf') cpf: string
+    ) {
+
+        const resultado =
+            await this.simulacoesService.buscarSimulacaoPorCPF(cpf);
+            
+    if (resultado.length===0) {
+        throw new NotFoundException('CPF não encontrado.');
     }
         return resultado;
     }
